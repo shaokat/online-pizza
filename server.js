@@ -10,6 +10,7 @@ const session = require('express-session')
 const flash = require('express-flash')
 const MongoDbStore = require('connect-mongo');
 const passport = require('passport')
+const Emitter = require('events')
 
 const PORT = process.env.PORT || 4000
 
@@ -26,6 +27,10 @@ connection.once('open', ()=>{
   console.log('connection failed...'+err)
 })
 
+//Event emitter
+
+const eventEmitter = new Emitter()
+app.set('eventEmitter', eventEmitter)
 
 //session config
 app.use(session({
@@ -64,17 +69,28 @@ app.use((req,res,next)=>{
 app.use(expressLayouts)
 app.set('views',path.join(__dirname,'/resources/views'))
 app.set('view engine','ejs')
+
+//route 
 require('./routes/web')(app)
 
 
-const start = async () => {
-    try {
-      app.listen(PORT, () =>
+const server = app.listen(PORT, () =>{
         console.log(`Server is listening on port ${PORT}...`)
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  
-  start();
+})
+
+const io =  require('socket.io')(server)
+io.on('connection', (socket)=>{
+  // Join
+  socket.on('join',(roomName)=>{
+    socket.join(roomName)
+
+  })
+})
+
+eventEmitter.on('orderUpdated', (data)=>{
+  io.to(`order_${data.id}`).emit('orderUpdated',data)
+})
+
+eventEmitter.on('orderPlaced', (data)=>{
+  io.to('adminRoom').emit('orderPlaced',data)
+})

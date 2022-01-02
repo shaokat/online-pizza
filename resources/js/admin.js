@@ -79,4 +79,17 @@ export function initAdmin(socket) {
         `
         }).join('')
     }
+
+    socket.on('orderPlaced', (order)=>{
+        new Noty({
+            type: 'success',
+            timeout:1000,
+            text: 'New Order',
+            progressBar: false
+        }).show();
+        console.log(orders)
+        orders.unshift(order)
+        orderTableBody.innerHTML= ''
+        orderTableBody.innerHTML=generateMarkup(orders)
+    })
 }
