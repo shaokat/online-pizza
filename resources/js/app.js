@@ -46,8 +46,7 @@ if(alertMsg){
     }, 2000)
 }
 
-//admin order js
-initAdmin(socket)
+
 
 //Change order status
 let statuess = document.querySelectorAll('.status_line')
@@ -90,9 +89,10 @@ if(order){
 }
 
 let adminAreaPath = window.location.pathname
-console.log(adminAreaPath)
 
 if(adminAreaPath.includes('admin')){
+    //admin order js
+    initAdmin(socket)
     socket.emit('join', 'adminRoom')
 }
 

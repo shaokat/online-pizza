@@ -2276,10 +2276,8 @@ if (alertMsg) {
   setTimeout(function () {
     alertMsg.remove();
   }, 2000);
-} //admin order js
+} //Change order status
 
-
-(0,_admin__WEBPACK_IMPORTED_MODULE_3__.initAdmin)(socket); //Change order status
 
 var statuess = document.querySelectorAll('.status_line');
 var hiddenInput = document.querySelector('#hiddenInput');
@@ -2319,9 +2317,10 @@ if (order) {
 }
 
 var adminAreaPath = window.location.pathname;
-console.log(adminAreaPath);
 
 if (adminAreaPath.includes('admin')) {
+  //admin order js
+  (0,_admin__WEBPACK_IMPORTED_MODULE_3__.initAdmin)(socket);
   socket.emit('join', 'adminRoom');
 }
 
