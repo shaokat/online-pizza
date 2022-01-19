@@ -91,6 +91,7 @@ if(order){
 let adminAreaPath = window.location.pathname
 
 if(adminAreaPath.includes('admin')){
+    console.log('admin')
     //admin order js
     initAdmin(socket)
     socket.emit('join', 'adminRoom')
@@ -108,3 +109,9 @@ socket.on('orderUpdated', (data)=>{
         progressBar: false
     }).show();
 })
+
+const timeout = document.querySelector('.msg')
+  setTimeout(hideElement, 2000) //milliseconds until timeout//
+  function hideElement() {
+    timeout.style.display = 'none'
+  }

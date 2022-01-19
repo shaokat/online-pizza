@@ -3,6 +3,7 @@ const Order = require('../../app/models/order')
 function orederController(){
     return{
         store(req,res){
+            console.log('store')
             const{phone, address} = req.body
            if(!phone || !address){
                req.flash('error', 'All fields are required')
@@ -19,22 +20,27 @@ function orederController(){
 
            order.save().then(result =>{
             Order.populate(result, {path: 'customerId'}, (err, placedOrder) =>{
+                if(err){
+                console.log('cart')
+                req.flash('error', 'Something went wrong')
+                return res.redirect('/cart')
+                }
+                console.log('orders')
                 req.flash('success', 'Order placed successfully')
                 delete req.session.cart
                 //Emit 
                 const eventEmitter = req.app.get('eventEmitter')
                 eventEmitter.emit('orderPlaced', result)
                 return res.redirect('/customer/orders')
-               }).catch(err=>{
-                   req.flash('error', 'Something went wrong')
-                   return res.redirect('/cart')
                })
+               
             })
             
 
         },
 
         async index(req, res){
+            console.log('index')
             const orders = await Order.find(
                 {customerId: req.user._id}, 
                 null,
@@ -45,6 +51,7 @@ function orederController(){
         },
 
         async show(req, res){
+            console.log('show')
             const order = await Order.findById(req.params.id)
 
             //Authorize user

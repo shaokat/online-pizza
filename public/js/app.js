@@ -2319,7 +2319,8 @@ if (order) {
 var adminAreaPath = window.location.pathname;
 
 if (adminAreaPath.includes('admin')) {
-  //admin order js
+  console.log('admin'); //admin order js
+
   (0,_admin__WEBPACK_IMPORTED_MODULE_3__.initAdmin)(socket);
   socket.emit('join', 'adminRoom');
 }
@@ -2337,6 +2338,12 @@ socket.on('orderUpdated', function (data) {
     progressBar: false
   }).show();
 });
+var timeout = document.querySelector('.msg');
+setTimeout(hideElement, 2000); //milliseconds until timeout//
+
+function hideElement() {
+  timeout.style.display = 'none';
+}
 
 /***/ }),
 
