@@ -47,7 +47,8 @@ const sendMail = (toLink, toEmail,token,req)=>{
                 req.flash('error', 'eamil could not sent please try again!')
            
         }else{
-                req.flash('success', 'eamil has been sent please follow the instructions!')
+            console.log('hdf')
+                req.flash('success', 'eamil has been sent please follow the instructions! Not Found! check Spam')
            
             }
     });

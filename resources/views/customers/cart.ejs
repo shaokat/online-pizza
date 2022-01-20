@@ -27,10 +27,13 @@
                 </div>
                <% if(user) { %>
                     <div>
+                      
                         <form action="/orders" method="POST" class="mt-12">
-                            <input name="phone" class=" border border-gray-400 p-2 w-1/2 mb-4" type="text" placeholder="Phone number">
+                          <div><% if(messages.error) {%> 
+                            <span class="text-red-500 text-sm mb-5"><%= messages.error %></span>
+                            <% } %> </div>
+                            <input name="phone" class=" border border-gray-400 p-2 w-1/2 mt-5 mb-4" type="text" placeholder="Phone number">
                             <input name="address" class=" border border-gray-400 p-2 w-1/2 mb-4" type="text" placeholder="address">
-                        
                             <div>
                                 <button class="btn-primary px-6 py-2 rounded-full text-white font-bold mt-6"
                                 type="submit">Order Now</button>
